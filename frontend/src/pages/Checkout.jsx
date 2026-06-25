@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 
 function Checkout() {
   const [formData, setFormData] = useState({
@@ -8,6 +9,7 @@ function Checkout() {
     paymentMethod: "Cash on Delivery",
   });
 
+  // Handle Input Changes
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -15,12 +17,38 @@ function Checkout() {
     });
   };
 
-  const handleSubmit = (e) => {
+  // Handle Form Submit
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    alert("Order Placed Successfully!");
+    try {
+      const orderData = {
+        customerName: formData.fullName,
+        phone: formData.phone,
+        address: formData.address,
+        paymentMethod: formData.paymentMethod,
+        totalAmount: 4800, // Temporary value
+      };
 
-    console.log(formData);
+      const res = await axios.post(
+        "http://localhost:5000/api/orders",
+        orderData
+      );
+
+      alert(res.data.message);
+
+      // Clear Form
+      setFormData({
+        fullName: "",
+        phone: "",
+        address: "",
+        paymentMethod: "Cash on Delivery",
+      });
+
+    } catch (error) {
+      alert("Failed to place order");
+      console.log(error);
+    }
   };
 
   return (
@@ -55,15 +83,20 @@ function Checkout() {
           value={formData.address}
           onChange={handleChange}
           required
-        ></textarea>
+        />
 
         <select
           name="paymentMethod"
           value={formData.paymentMethod}
           onChange={handleChange}
         >
-          <option>Cash on Delivery</option>
-          <option>Card Payment</option>
+          <option value="Cash on Delivery">
+            Cash on Delivery
+          </option>
+
+          <option value="Card Payment">
+            Card Payment
+          </option>
         </select>
 
         <div className="order-summary">
