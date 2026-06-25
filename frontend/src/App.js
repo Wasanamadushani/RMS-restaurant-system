@@ -16,6 +16,8 @@ import Checkout from "./pages/Checkout";
 
 import AdminDashboard from "./pages/AdminDashboard";
 
+import AdminOrders from "./pages/AdminOrders";
+
 function App() {
   return (
     <BrowserRouter>
@@ -30,6 +32,7 @@ function App() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/admin/orders" element={<AdminOrders />} />
       </Routes>
 
       <Footer />
