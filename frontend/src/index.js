@@ -9,7 +9,9 @@ const root = ReactDOM.createRoot(
 );
 
 root.render(
-  <CartProvider>
-    <App />
-  </CartProvider>
+  <React.StrictMode>
+    <CartProvider>
+      <App />
+    </CartProvider>
+  </React.StrictMode>
 );

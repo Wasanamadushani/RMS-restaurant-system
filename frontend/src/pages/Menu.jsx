@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { CartContext } from "../context/CartContext";
 
 const foods = [
   {
@@ -36,6 +37,8 @@ const foods = [
 ];
 
 function Menu() {
+  const { addToCart } = useContext(CartContext);
+
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("All");
 
@@ -103,7 +106,10 @@ function Menu() {
                 Rs. {food.price}
               </p>
 
-              <button className="add-btn">
+              <button
+                className="add-btn"
+                onClick={() => addToCart(food)}
+              >
                 Add to Cart
               </button>
             </div>

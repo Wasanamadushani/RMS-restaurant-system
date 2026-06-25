@@ -1,33 +1,78 @@
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { CartContext } from "../context/CartContext";
 
-import { Link } from "react-router-dom";
-
 function Cart() {
+  const { cartItems, removeFromCart } =
+    useContext(CartContext);
 
-  const { cartItems } = useContext(CartContext);
+  const totalPrice = cartItems.reduce(
+    (total, item) =>
+      total + item.price * item.quantity,
+    0
+  );
 
   return (
-    <div style={{ padding: "20px" }}>
-
-      <h2>Shopping Cart</h2>
+    <div className="cart-container">
+      <h1>Your Cart</h1>
 
       {cartItems.length === 0 ? (
-        <p>Your cart is empty.</p>
+        <div className="empty-cart">
+          <div className="empty-cart-icon">🛒</div>
+
+          <h2>Your Cart is Empty</h2>
+
+          <p>Add some delicious food to your cart.</p>
+
+          <button
+            className="shop-btn"
+            onClick={() => window.location.href = "/menu"}
+          >
+            Browse Menu
+          </button>
+        </div>
       ) : (
-        cartItems.map((item, index) => (
-          <div key={index}>
-            <h3>{item.name}</h3>
-            <p>Rs. {item.price}</p>
-            <hr />
-          </div>
-        ))
+        <>
+          {cartItems.map((item) => (
+            <div
+              className="cart-item"
+              key={item.id}
+            >
+              <img
+                src={item.image}
+                alt={item.name}
+              />
+
+              <div>
+                <h3>{item.name}</h3>
+
+                <p>
+                  Price: Rs. {item.price}
+                </p>
+
+                <p>
+                  Quantity: {item.quantity}
+                </p>
+              </div>
+
+              <button
+                onClick={() =>
+                  removeFromCart(item.id)
+                }
+              >
+                Remove
+              </button>
+            </div>
+          ))}
+
+          <h2>
+            Total: Rs. {totalPrice}
+          </h2>
+
+          <button className="checkout-btn">
+            Proceed to Checkout
+          </button>
+        </>
       )}
-
-      <Link to="/checkout">
-        <button>Proceed to Checkout</button>
-      </Link>
-
     </div>
   );
 }
