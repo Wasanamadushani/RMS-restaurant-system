@@ -832,3 +832,44 @@ body {
 .food-table button:hover {
   background: darkred;
 }
+
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 999;
+}
+
+.food-modal {
+  width: 400px;
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  text-align: center;
+}
+
+.food-modal img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.food-modal h2 {
+  margin-top: 15px;
+}
+
+.close-btn {
+  margin-top: 15px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
