@@ -1,4 +1,9 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation
+} from "react-router-dom";
 
 import "./App.css";
 
@@ -18,26 +23,47 @@ import AdminDashboard from "./pages/AdminDashboard";
 
 import AdminOrders from "./pages/AdminOrders";
 
-function App() {
-  return (
-    <BrowserRouter>
+function AppContent() {
 
-      <Navbar />
+  const location = useLocation();
+
+  const isAdminPage =
+    location.pathname.startsWith("/admin");
+
+  return (
+    <>
+      {!isAdminPage && <Navbar />}
 
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/menu" element={<Menu />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/checkout" element={<Checkout />} />
-        <Route path="/admin" element={<AdminDashboard />} />
-        <Route path="/admin/orders" element={<AdminOrders />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        
+
+        <Route
+          path="/admin/dashboard"
+          element={<AdminDashboard />}
+        />
+
+        <Route
+          path="/admin/orders"
+          element={<AdminOrders />}
+        />
       </Routes>
 
-      <Footer />
+      {!isAdminPage && <Footer />}
+    </>
+  );
+}
 
-    </BrowserRouter>
+function App() {
+  return (
+    <Router>
+      <AppContent />
+    </Router>
   );
 }
 

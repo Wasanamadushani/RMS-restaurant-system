@@ -4,6 +4,8 @@ const {
   createOrder,
   getOrders,
   updateOrderStatus,
+  getOrderStats,
+  getRecentOrders
 } = require("../controllers/orderController");
 
 const router = express.Router();
@@ -16,5 +18,11 @@ router.get("/", getOrders);
 
 // Update Order Status
 router.put("/:id", updateOrderStatus);
+
+// Get Dashboard Statistics
+router.get("/stats", getOrderStats);
+
+// Get Recent Orders
+router.get("/recent", getRecentOrders);
 
 module.exports = router;
