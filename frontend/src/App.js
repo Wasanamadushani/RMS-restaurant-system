@@ -23,6 +23,9 @@ import AdminDashboard from "./pages/AdminDashboard";
 
 import AdminOrders from "./pages/AdminOrders";
 
+import ManageFoods from "./pages/ManageFoods";
+
+
 function AppContent() {
 
   const location = useLocation();
@@ -41,7 +44,7 @@ function AppContent() {
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        
+        <Route path="/admin/foods" element={<ManageFoods />} />
 
         <Route
           path="/admin/dashboard"

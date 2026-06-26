@@ -16,6 +16,7 @@ app.use(express.json());
 app.use("/api/foods", foodRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/orders", orderRoutes);
+app.use("/uploads", express.static("uploads"));
 mongoose.connect(process.env.MONGO_URI)
 .then(() => console.log("MongoDB Connected"))
 .catch(err => console.log(err));

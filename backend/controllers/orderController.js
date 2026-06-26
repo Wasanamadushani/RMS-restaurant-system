@@ -108,6 +108,33 @@ const getOrderStats = async (req, res) => {
   }
 };
 
+const createFood = async (req, res) => {
+  try {
+    const { name, category, description, price } =
+      req.body;
+
+    const image = req.file
+      ? `/uploads/${req.file.filename}`
+      : "";
+
+    const food = new Food({
+      name,
+      category,
+      description,
+      price,
+      image,
+    });
+
+    await food.save();
+
+    res.status(201).json(food);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
 
 
 module.exports = {
