@@ -27,15 +27,44 @@ const orderSchema = new mongoose.Schema(
       required: true,
     },
 
+    items: [
+      {
+        name: String,
+        quantity: Number,
+      },
+    ],
+
     status: {
       type: String,
-      enum: ["Pending", "Preparing", "Delivered"],
+      enum: [
+        "Pending",
+        "Preparing",
+        "Out for Delivery",
+        "Delivered",
+      ],
       default: "Pending",
     },
+
+    adminDeleted: {
+      type: Boolean,
+      default: false
+    },
+
+    userDeleted: {
+      type: Boolean,
+      default: false
+    },
+
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User"
+}
   },
+
   { timestamps: true }
 );
 
-const Order = mongoose.model("Order", orderSchema);
-
-module.exports = Order;
+module.exports = mongoose.model(
+  "Order",
+  orderSchema
+);

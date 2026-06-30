@@ -1,7 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 
 function Navbar() {
-
   const navigate = useNavigate();
 
   const user = JSON.parse(localStorage.getItem("user"));
@@ -17,17 +16,17 @@ function Navbar() {
 
   return (
     <nav className="navbar">
-
       <h2 className="logo">FoodieHub</h2>
 
       <div className="nav-links">
-
         <Link to="/">Home</Link>
 
         {!user ? (
           <>
             <Link to="/about">About</Link>
+
             <Link to="/contact">Contact</Link>
+
             <Link to="/login">Login</Link>
 
             <Link
@@ -41,12 +40,16 @@ function Navbar() {
           <>
             {user.role === "admin" ? (
               <>
-                <Link to="/admin">
+                <Link to="/admin/dashboard">
                   Dashboard
                 </Link>
 
-                <Link to="/orders">
+                <Link to="/admin/orders">
                   Orders
+                </Link>
+
+                <Link to="/admin/foods">
+                  Manage Foods
                 </Link>
               </>
             ) : (
@@ -58,6 +61,14 @@ function Navbar() {
                 <Link to="/cart">
                   Cart
                 </Link>
+
+                <Link to="/my-orders">
+                  My Orders
+                </Link>
+
+                <Link to="/order-history">
+                  Order History
+                </Link>
               </>
             )}
 
@@ -66,9 +77,7 @@ function Navbar() {
             </Link>
           </>
         )}
-
       </div>
-
     </nav>
   );
 }

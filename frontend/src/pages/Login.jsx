@@ -1,72 +1,67 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 function Login() {
-
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     email: "",
-    password: ""
+    password: "",
   });
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+    setFormData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
   };
 
   const handleSubmit = async (e) => {
-
     e.preventDefault();
 
     try {
-
-      const res = await axios.post(
+      const response = await axios.post(
         "http://localhost:5000/api/users/login",
         formData
       );
 
-      // Save token
-      localStorage.setItem("token", res.data.token);
+      localStorage.setItem("token", response.data.token);
 
-      // Save logged in user
       localStorage.setItem(
         "user",
-        JSON.stringify(res.data.user)
+        JSON.stringify(response.data.user)
       );
 
       alert("Login Successful");
 
-      // Redirect based on role
-      if (res.data.user.role === "admin") {
-        navigate("/admin");
+      if (response.data.user.role === "admin") {
+        navigate("/admin/dashboard");
       } else {
         navigate("/menu");
       }
-
     } catch (error) {
+      console.log(error);
 
       alert(
         error.response?.data?.message ||
-        "Login Failed"
+          "Login Failed"
       );
     }
   };
 
   return (
     <div className="auth-container">
-
-      <form className="auth-form" onSubmit={handleSubmit}>
-
+      <form
+        className="auth-form"
+        onSubmit={handleSubmit}
+      >
         <h2>Login</h2>
 
         <input
           type="email"
           name="email"
-          placeholder="Email"
+          placeholder="Enter Email"
           value={formData.email}
           onChange={handleChange}
           required
@@ -75,7 +70,7 @@ function Login() {
         <input
           type="password"
           name="password"
-          placeholder="Password"
+          placeholder="Enter Password"
           value={formData.password}
           onChange={handleChange}
           required
@@ -84,9 +79,7 @@ function Login() {
         <button type="submit">
           Login
         </button>
-
       </form>
-
     </div>
   );
 }

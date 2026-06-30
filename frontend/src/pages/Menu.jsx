@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { CartContext } from "../context/CartContext";
+import { toast } from "react-toastify";
 
 function Menu() {
   const { addToCart } = useContext(CartContext);
@@ -106,6 +107,7 @@ function Menu() {
                 onClick={(e) => {
                   e.stopPropagation();
                   addToCart(food);
+                  toast.success(`${food.name} added to cart!`);
                 }}
               >
                 Add to Cart
@@ -151,9 +153,13 @@ function Menu() {
 
             <button
               className="add-btn"
-              onClick={() =>
-                addToCart(selectedFood)
-              }
+                onClick={() => {
+                  addToCart(selectedFood);
+
+                  toast.success(
+                    `${selectedFood.name} added to cart!`
+                  );
+                }}
             >
               Add To Cart
             </button>
