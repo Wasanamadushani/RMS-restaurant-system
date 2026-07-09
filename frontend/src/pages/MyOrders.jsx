@@ -10,18 +10,21 @@ function MyOrders() {
     fetchMyOrders();
   }, []);
 
-  // Fetch My Orders
+  // Fetch Active Orders
   const fetchMyOrders = async () => {
     try {
-      const user = JSON.parse(
-        localStorage.getItem("user")
-      );
+      const user = JSON.parse(localStorage.getItem("user"));
 
       const res = await axios.get(
         `http://localhost:5000/api/orders/my-orders/${user.id}`
       );
 
-      setOrders(res.data);
+      // Show only active orders
+      const activeOrders = res.data.filter(
+        (order) => order.status !== "Delivered"
+      );
+
+      setOrders(activeOrders);
 
     } catch (error) {
       console.log(error);
@@ -32,29 +35,7 @@ function MyOrders() {
     <div className="my-orders-container">
 
       <div className="my-orders-header">
-
-        <h1>My Orders</h1>
-
-        <div>
-
-          {/* <button
-            className="refresh-btn"
-            onClick={fetchMyOrders}
-          >
-            Refresh
-          </button>
-
-          <button
-            className="history-btn"
-            onClick={() =>
-              navigate("/order-history")
-            }
-          >
-            Order History
-          </button> */}
-
-        </div>
-
+        <h1>My Active Orders</h1>
       </div>
 
       <div className="my-orders-list">
@@ -71,8 +52,7 @@ function MyOrders() {
               <div className="order-header">
 
                 <h3>
-                  Order #
-                  {order._id.slice(-6)}
+                  Order #{order._id.slice(-6)}
                 </h3>
 
                 <span
@@ -100,26 +80,91 @@ function MyOrders() {
               </p>
 
               <p>
-                <strong>Payment :</strong>
+                <strong>Payment Method :</strong>
                 {" "}
                 {order.paymentMethod}
               </p>
 
               <p>
-                <strong>Phone :</strong>
-                {" "}
+                <strong>Payment Status :</strong>
+
+                <span
+                  className={`payment-status ${
+                    order.paymentStatus === "Paid"
+                      ? "payment-paid"
+                      : order.paymentStatus === "Rejected"
+                      ? "payment-rejected"
+                      : "payment-pending"
+                  }`}
+                >
+                  {order.paymentStatus || "Pending"}
+                </span>
+
+              </p>
+
+              {order.paymentReference && (
+
+                <p>
+                  <strong>Reference :</strong>
+                  {" "}
+                  {order.paymentReference}
+                </p>
+
+              )}
+
+              <p>
+                <strong>Receipt :</strong>{" "}
+
+                {order.receipt ? (
+
+                  <>
+                    <span
+                      style={{
+                        color: "green",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      Uploaded ✔
+                    </span>
+
+                    <br />
+
+                    <a
+                      href={`http://localhost:5000${order.receipt}`}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      View Receipt
+                    </a>
+
+                  </>
+
+                ) : (
+
+                  <span
+                    style={{
+                      color: "red",
+                    }}
+                  >
+                    Not Uploaded
+                  </span>
+
+                )}
+
+              </p>
+
+              <p>
+                <strong>Phone :</strong>{" "}
                 {order.phone}
               </p>
 
               <p>
-                <strong>Address :</strong>
-                {" "}
+                <strong>Address :</strong>{" "}
                 {order.address}
               </p>
 
               <p>
-                <strong>Ordered On :</strong>
-                {" "}
+                <strong>Ordered On :</strong>{" "}
                 {new Date(
                   order.createdAt
                 ).toLocaleString()}
@@ -140,7 +185,7 @@ function MyOrders() {
                     {item.name}
 
                     <span>
-                      x {item.quantity}
+                      × {item.quantity}
                     </span>
 
                   </div>
@@ -164,11 +209,11 @@ function MyOrders() {
             <h2>No Active Orders</h2>
 
             <p>
-              You don't have any active
-              orders.
+              You don't have any active orders at the moment.
             </p>
 
-            <button className="browse-btn"
+            <button
+              className="browse-btn"
               onClick={() =>
                 navigate("/menu")
               }

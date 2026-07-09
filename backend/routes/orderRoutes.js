@@ -1,3 +1,4 @@
+
 const express = require("express");
 
 const {
@@ -10,27 +11,17 @@ const {
   getOrderHistory,
   adminDeleteOrder,
   userDeleteOrder,
-  
+  approvePayment,
+  rejectPayment,
+  rateOrder
 } = require("../controllers/orderController");
+
+const uploadReceipt = require("../middleware/uploadReceipt");
+
 
 const router = express.Router();
 
-// Create New Order
-router.post("/", createOrder);
-
-// Get All Orders
-router.get("/", getOrders);
-
-
-
-// Update Order Status
-router.put("/:id", updateOrderStatus);
-
-// Delete Order
-// router.delete("/:id", deleteOrder);
-router.put("/admin-delete/:id", adminDeleteOrder);
-
-router.put("/user-delete/:id", userDeleteOrder);
+// IMPORTANT: Specific routes must come BEFORE parameterized routes
 
 // Get Dashboard Statistics
 router.get("/stats", getOrderStats);
@@ -38,8 +29,38 @@ router.get("/stats", getOrderStats);
 // Get Recent Orders
 router.get("/recent", getRecentOrders);
 
+// Get My Orders
 router.get("/my-orders/:userId", getMyOrders);
 
+// Get Order History
 router.get("/history/:userId", getOrderHistory);
+
+// Get All Orders (Admin)
+router.get("/", getOrders);
+
+// Create New Order
+router.post(
+  "/",
+  uploadReceipt.single("receipt"),
+  createOrder
+);
+
+// Update Order Status
+router.put("/:id", updateOrderStatus);
+
+// Approve Payment
+router.put("/:id/approve-payment", approvePayment);
+
+// Reject Payment
+router.put("/:id/reject-payment", rejectPayment);
+
+// Rate Order
+router.put("/rate/:id", rateOrder);
+
+// Admin Delete Order
+router.put("/admin-delete/:id", adminDeleteOrder);
+
+// User Delete Order
+router.put("/user-delete/:id", userDeleteOrder);
 
 module.exports = router;

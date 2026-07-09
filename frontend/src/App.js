@@ -24,6 +24,8 @@ import Checkout from "./pages/Checkout";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminOrders from "./pages/AdminOrders";
 import ManageFoods from "./pages/ManageFoods";
+import AdminReviews from "./pages/AdminReviews";
+import AdminUsers from "./pages/AdminUsers";
 
 import MyOrders from "./pages/MyOrders";
 import OrderHistory from "./pages/OrderHistory";
@@ -36,21 +38,49 @@ function AppContent() {
 
   return (
     <div className="app-container">
-      {/* Show Navbar only for user pages */}
+
+      {/* User Navbar */}
       {!isAdminPage && <Navbar />}
 
       <div className="main-content">
+
         <Routes>
 
-          {/* User Routes */}
-          <Route path="/" element={<Home />} />
-          <Route path="/menu" element={<Menu />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/checkout" element={<Checkout />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          {/* ================= USER ROUTES ================= */}
 
-          {/* Admin Routes */}
+          <Route path="/" element={<Home />} />
+
+          <Route path="/menu" element={<Menu />} />
+
+          <Route path="/cart" element={<Cart />} />
+
+          <Route
+            path="/checkout"
+            element={<Checkout />}
+          />
+
+          <Route
+            path="/login"
+            element={<Login />}
+          />
+
+          <Route
+            path="/register"
+            element={<Register />}
+          />
+
+          <Route
+            path="/my-orders"
+            element={<MyOrders />}
+          />
+
+          <Route
+            path="/order-history"
+            element={<OrderHistory />}
+          />
+
+          {/* ================= ADMIN ROUTES ================= */}
+
           <Route
             path="/admin/dashboard"
             element={
@@ -79,30 +109,38 @@ function AppContent() {
           />
 
           <Route
-            path="/my-orders"
-            element={<MyOrders />}
+            path="/admin/users"
+            element={
+              <AdminLayout>
+                <AdminUsers />
+              </AdminLayout>
+            }
           />
 
-
           <Route
-            path="/order-history"
-            element={<OrderHistory />}
-        />
+            path="/admin/reviews"
+            element={
+              <AdminLayout>
+                <AdminReviews />
+              </AdminLayout>
+            }
+          />
 
         </Routes>
+
       </div>
 
       <ToastContainer
         position="top-right"
         autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={true}
+        newestOnTop
         closeOnClick
         pauseOnHover
       />
 
-      {/* Show Footer only for user pages */}
+      {/* User Footer */}
       {!isAdminPage && <Footer />}
+
     </div>
   );
 }

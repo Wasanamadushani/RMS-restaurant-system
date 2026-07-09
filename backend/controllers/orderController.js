@@ -5,6 +5,10 @@ const Order = require("../models/Order");
 // =============================
 const createOrder = async (req, res) => {
   try {
+
+    console.log("===== ORDER REQUEST =====");
+    console.log(req.body);
+
     const {
       customerName,
       phone,
@@ -13,7 +17,47 @@ const createOrder = async (req, res) => {
       totalAmount,
       items,
       user,
+      paymentReference,
     } = req.body;
+
+    console.log("Items Raw:", items);
+
+    let parsedItems = [];
+
+    if (items) {
+      try {
+        parsedItems = JSON.parse(items);
+        console.log("Parsed Items:", parsedItems);
+      } catch (parseError) {
+        console.error("Error parsing items:", parseError);
+        return res.status(400).json({
+          message: "Invalid items format",
+        });
+      }
+    }
+
+    // Validate items
+    if (!parsedItems || parsedItems.length === 0) {
+      return res.status(400).json({
+        message: "Order must contain at least one item",
+      });
+    }
+
+    const receipt = req.file
+      ? `/uploads/receipts/${req.file.filename}`
+      : "";
+
+    // Set payment status based on payment method
+    let paymentStatus = "Pending";
+    let orderStatus = "Pending";
+    
+    if (paymentMethod === "Cash on Delivery") {
+      paymentStatus = "Pending";
+      orderStatus = "Pending";
+    } else if (paymentMethod === "Bank Transfer") {
+      paymentStatus = "Pending";
+      orderStatus = "Pending";
+    }
 
     const order = new Order({
       customerName,
@@ -21,21 +65,27 @@ const createOrder = async (req, res) => {
       address,
       paymentMethod,
       totalAmount,
-      items,
+      items: parsedItems,
       user,
-      status: "Pending",
-      adminDeleted: false,
-      userDeleted: false,
+      paymentReference,
+      receipt,
+      paymentStatus,
+      paymentVerified: false,
+      status: orderStatus,
     });
 
-    await order.save();
+    const savedOrder = await order.save();
+    
+    console.log("Order saved successfully with items:", savedOrder.items);
 
     res.status(201).json({
       message: "Order placed successfully",
-      order,
+      order: savedOrder,
     });
 
   } catch (error) {
+    console.error("Error creating order:", error);
+
     res.status(500).json({
       message: error.message,
     });
@@ -261,6 +311,95 @@ const userDeleteOrder = async (req, res) => {
   }
 };
 
+
+
+// Approve Payment
+const approvePayment = async (req, res) => {
+  try {
+
+    const order = await Order.findByIdAndUpdate(
+      req.params.id,
+      {
+        paymentStatus: "Paid",
+        paymentVerified: true,
+        status: "Preparing",
+      },
+      { new: true }
+    );
+
+    res.status(200).json({
+      message: "Payment Approved",
+      order,
+    });
+
+  } catch (error) {
+
+    res.status(500).json({
+      message: error.message,
+    });
+
+  }
+};
+
+// Reject Payment
+const rejectPayment = async (req, res) => {
+
+  try {
+
+    const order = await Order.findByIdAndUpdate(
+      req.params.id,
+      {
+        paymentStatus: "Rejected",
+        paymentVerified: false,
+      },
+      { new: true }
+    );
+
+    res.status(200).json({
+      message: "Payment Rejected",
+      order,
+    });
+
+  } catch (error) {
+
+    res.status(500).json({
+      message: error.message,
+    });
+
+  }
+};
+
+
+
+const rateOrder = async (req, res) => {
+  try {
+
+    const { rating, review } = req.body;
+
+    const order = await Order.findByIdAndUpdate(
+      req.params.id,
+      {
+        rating,
+        review,
+        reviewed: true,
+      },
+      { new: true }
+    );
+
+    res.status(200).json(order);
+
+  } catch (error) {
+
+    res.status(500).json({
+      message: error.message,
+    });
+
+  }
+};
+
+
+
+
 module.exports = {
   createOrder,
   getOrders,
@@ -271,4 +410,7 @@ module.exports = {
   getOrderHistory,
   adminDeleteOrder,
   userDeleteOrder,
+  approvePayment,
+  rejectPayment,
+  rateOrder,
 };

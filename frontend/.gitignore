@@ -21,3 +21,24 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+
+
+# dependencies
+node_modules/
+backend/node_modules/
+frontend/node_modules/
+
+# uploads
+backend/uploads/
+
+# vscode
+.vscode/
+
+# env
+.env
+backend/.env
+frontend/.env
+
+# logs
+*.log
