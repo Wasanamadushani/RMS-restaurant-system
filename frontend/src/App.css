@@ -1210,3 +1210,655 @@ body {
     width: 100%;
   }
 }
+
+
+.history-summary{
+display:flex;
+gap:20px;
+margin:30px 0;
+}
+
+.summary-box{
+flex:1;
+background:#fff;
+padding:20px;
+border-radius:12px;
+text-align:center;
+box-shadow:0 4px 10px rgba(0,0,0,.1);
+}
+
+.summary-box h3{
+color:#ff5a36;
+font-size:28px;
+margin-bottom:10px;
+}
+
+.history-search{
+margin-bottom:30px;
+}
+
+.history-search input{
+width:100%;
+padding:14px;
+border:1px solid #ddd;
+border-radius:8px;
+font-size:16px;
+}
+
+
+.invoice-btn{
+  width:100%;
+  padding:12px;
+  margin-top:15px;
+  border:none;
+  border-radius:8px;
+  background:#0d6efd;
+  color:#fff;
+  font-size:15px;
+  font-weight:600;
+  cursor:pointer;
+  transition:.3s;
+}
+
+.invoice-btn:hover{
+  background:#0b5ed7;
+  transform:translateY(-2px);
+}
+
+.invoice-btn:active{
+  transform:scale(.98);
+}
+
+
+/* ===========================
+   ADMIN REVIEWS PAGE
+=========================== */
+
+.admin-reviews-container {
+  padding: 40px;
+  background: #f5f5f5;
+  min-height: 100vh;
+}
+
+.admin-reviews-container h1 {
+  text-align: center;
+  font-size: 42px;
+  color: #222;
+  margin-bottom: 40px;
+  font-weight: 700;
+}
+
+/* Reviews Stats */
+
+.reviews-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+  margin-bottom: 40px;
+}
+
+.stat-card {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transition: 0.3s;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+}
+
+.stat-card h3 {
+  font-size: 36px;
+  color: #ff5722;
+  margin-bottom: 10px;
+}
+
+.stat-card p {
+  color: #666;
+  font-size: 16px;
+}
+
+/* Reviews Search */
+
+.reviews-search {
+  margin-bottom: 30px;
+}
+
+.reviews-search input {
+  width: 100%;
+  padding: 15px 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  font-size: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Reviews Table */
+
+.reviews-table-container {
+  background: white;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.reviews-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.reviews-table thead {
+  background: #ff5722;
+  color: white;
+}
+
+.reviews-table th {
+  padding: 18px 15px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.reviews-table td {
+  padding: 18px 15px;
+  border-bottom: 1px solid #eee;
+  color: #555;
+}
+
+.reviews-table tbody tr:hover {
+  background: #f8f8f8;
+}
+
+/* Customer Info */
+
+.customer-info strong {
+  color: #333;
+  font-size: 15px;
+}
+
+.customer-info small {
+  color: #999;
+  font-size: 13px;
+}
+
+/* Rating Cell */
+
+.rating-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.star-rating {
+  display: flex;
+  gap: 3px;
+}
+
+.star-filled {
+  color: #ffc107;
+  font-size: 16px;
+}
+
+.star-empty {
+  color: #ddd;
+  font-size: 16px;
+}
+
+.rating-number {
+  font-size: 13px;
+  color: #666;
+  font-weight: 600;
+}
+
+/* Comment Cell */
+
+.comment-cell {
+  max-width: 300px;
+  line-height: 1.5;
+  color: #555;
+}
+
+/* Delete Button */
+
+.delete-review-btn {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: 14px;
+}
+
+.delete-review-btn:hover {
+  background: #c82333;
+  transform: scale(1.05);
+}
+
+.delete-review-btn:active {
+  transform: scale(0.98);
+}
+
+/* Empty Reviews */
+
+.empty-reviews {
+  text-align: center;
+  padding: 60px 20px;
+  color: #999;
+}
+
+.empty-reviews h2 {
+  font-size: 28px;
+  margin-bottom: 15px;
+  color: #666;
+}
+
+.empty-reviews p {
+  font-size: 16px;
+}
+
+/* Loading Spinner */
+
+.loading-spinner {
+  text-align: center;
+  padding: 60px;
+  font-size: 20px;
+  color: #999;
+}
+
+/* ===========================
+   REVIEW BOX (Order History)
+=========================== */
+
+.review-box {
+  margin-top: 25px;
+  padding: 25px;
+  background: #f9f9f9;
+  border-radius: 12px;
+  border: 2px dashed #ddd;
+}
+
+.review-box h4 {
+  color: #333;
+  margin-bottom: 18px;
+  font-size: 18px;
+}
+
+.review-box select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 15px;
+  margin-bottom: 15px;
+  cursor: pointer;
+  background: white;
+}
+
+.review-box textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 15px;
+  min-height: 100px;
+  resize: vertical;
+  font-family: Arial, sans-serif;
+}
+
+.review-btn {
+  width: 100%;
+  padding: 12px;
+  margin-top: 15px;
+  border: none;
+  border-radius: 8px;
+  background: #ff5722;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.review-btn:hover {
+  background: #e64a19;
+  transform: translateY(-2px);
+}
+
+.review-btn:active {
+  transform: scale(0.98);
+}
+
+/* ===========================
+   ORDER HEADER
+=========================== */
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+/* ===========================
+   ORDERED ITEMS
+=========================== */
+
+.ordered-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.ordered-item:last-child {
+  border-bottom: none;
+}
+
+/* ===========================
+   PAYMENT STATUS
+=========================== */
+
+.payment-status {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 15px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.payment-paid {
+  background: #d4edda;
+  color: #155724;
+}
+
+.payment-pending {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.payment-rejected {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+/* ===========================
+   BANK PAYMENT BOX
+=========================== */
+
+.bank-payment-box {
+  background: #e3f2fd;
+  padding: 25px;
+  border-radius: 12px;
+  border-left: 5px solid #2196f3;
+  margin: 20px 0;
+}
+
+.bank-payment-box h3 {
+  color: #1976d2;
+  margin-bottom: 15px;
+}
+
+.bank-payment-box p {
+  margin: 10px 0;
+  color: #555;
+}
+
+.bank-payment-box hr {
+  margin: 20px 0;
+  border: none;
+  border-top: 1px solid #90caf9;
+}
+
+.bank-payment-box input[type="text"] {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px solid #90caf9;
+  border-radius: 8px;
+  font-size: 15px;
+}
+
+.bank-payment-box label {
+  display: block;
+  margin-top: 15px;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #333;
+}
+
+.bank-payment-box input[type="file"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #90caf9;
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+}
+
+/* ===========================
+   SUMMARY ITEM
+=========================== */
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  color: #555;
+}
+
+/* ===========================
+   RESPONSIVE DESIGN
+=========================== */
+
+@media (max-width: 768px) {
+  .reviews-table-container {
+    overflow-x: auto;
+  }
+
+  .reviews-table {
+    min-width: 800px;
+  }
+
+  .admin-reviews-container {
+    padding: 20px;
+  }
+
+  .admin-reviews-container h1 {
+    font-size: 32px;
+  }
+
+  .stat-card {
+    padding: 20px;
+  }
+
+  .comment-cell {
+    max-width: 200px;
+  }
+}
+
+
+/* ===========================
+   MANAGE FOODS - EDIT & DELETE BUTTONS
+=========================== */
+
+.edit-button {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 10px;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+.edit-button:hover {
+  background: #0056b3;
+  transform: translateY(-2px);
+}
+
+.delete-button {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+.delete-button:hover {
+  background: #c82333;
+  transform: translateY(-2px);
+}
+
+
+
+/*admin user page */
+
+.admin-users{
+    padding:30px;
+    width:100%;
+}
+
+.admin-users h1{
+    font-size:42px;
+    margin-bottom:25px;
+    color:#222;
+}
+
+/* Stats */
+
+.user-stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+    margin-bottom:25px;
+}
+
+.stat-card{
+    background:#fff;
+    border-radius:15px;
+    padding:25px;
+    text-align:center;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+
+.stat-card h2{
+    color:#ff5a36;
+    font-size:40px;
+    margin-bottom:10px;
+}
+
+.stat-card p{
+    color:#666;
+}
+
+/* Toolbar */
+
+.user-toolbar{
+    display:flex;
+    justify-content:space-between;
+    gap:20px;
+    margin-bottom:20px;
+}
+
+.user-toolbar input{
+    flex:1;
+    padding:13px;
+    border-radius:10px;
+    border:1px solid #ddd;
+    font-size:15px;
+}
+
+.user-toolbar select{
+    width:150px;
+    border-radius:10px;
+    border:1px solid #ddd;
+    padding:13px;
+}
+
+/* Table */
+
+.user-table{
+    width:100%;
+    background:white;
+    border-radius:15px;
+    overflow:hidden;
+    box-shadow:0 10px 20px rgba(0,0,0,.08);
+    border-collapse:collapse;
+}
+
+.user-table thead{
+    background:#ff5a36;
+    color:white;
+}
+
+.user-table th{
+    padding:18px;
+    text-align:left;
+}
+
+.user-table td{
+    padding:18px;
+    border-bottom:1px solid #eee;
+}
+
+.user-table tbody tr:hover{
+    background:#fafafa;
+}
+
+.role-admin{
+    color:#ff5722;
+    font-weight:bold;
+}
+
+.role-customer{
+    color:#2196f3;
+    font-weight:bold;
+}
+
+.active{
+    color:green;
+    font-weight:bold;
+}
+
+.blocked{
+    color:red;
+    font-weight:bold;
+}
+
+/* Buttons */
+
+.action-btn{
+    border:none;
+    padding:8px 15px;
+    border-radius:8px;
+    cursor:pointer;
+    color:white;
+    margin-right:8px;
+    font-size:13px;
+}
+
+.block-btn{
+    background:#ff9800;
+}
+
+.unblock-btn{
+    background:#4caf50;
+}
+
+.delete-btn{
+    background:#f44336;
+}
+
+.action-btn:hover{
+    opacity:.9;
+}

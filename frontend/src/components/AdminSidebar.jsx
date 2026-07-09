@@ -26,6 +26,12 @@ function AdminSidebar() {
         </li>
 
         <li>
+          <Link to="/admin/reviews">
+            Manage Reviews
+          </Link>
+        </li>
+
+        <li>
           <Link to="/">
             Back to Website
           </Link>

@@ -63,8 +63,14 @@ function AdminLayout({ children }) {
             </Link>
           </li>
 
-          <li>
-            <Link to="#">
+          <li
+            className={
+              location.pathname === "/admin/users"
+                ? "active"
+                : ""
+            }
+          >
+            <Link to="/admin/users">
               <FaUsers />
               Users
             </Link>

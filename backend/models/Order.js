@@ -29,8 +29,22 @@ const orderSchema = new mongoose.Schema(
 
     items: [
       {
-        name: String,
-        quantity: Number,
+        food: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Food",
+        },
+
+        name: {
+          type: String,
+        },
+
+        price: {
+          type: Number,
+        },
+
+        quantity: {
+          type: Number,
+        },
       },
     ],
 
@@ -58,8 +72,53 @@ const orderSchema = new mongoose.Schema(
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User"
-}
+},
+
+
+    paymentStatus: {
+      type: String,
+      enum: [
+        "Pending",
+        "Paid",
+        "Rejected",
+      ],
+      default: "Pending",
+    },
+
+    paymentReference: {
+      type: String,
+      default: "",
+    },
+
+    receipt: {
+      type: String,
+      default: "",
+    },
+
+    paymentVerified: {
+      type: Boolean,
+      default: false,
+    },
+
+    rating: {
+      type: Number,
+      default: 0,
+    },
+
+    review: {
+      type: String,
+      default: "",
+    },
+
+    reviewed: {
+      type: Boolean,
+      default: false,
+    },
+
+
   },
+
+  
 
   { timestamps: true }
 );

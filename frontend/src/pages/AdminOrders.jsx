@@ -8,7 +8,7 @@ function AdminOrders() {
     fetchOrders();
   }, []);
 
-  // Fetch All Orders
+  // Fetch Orders
   const fetchOrders = async () => {
     try {
       const res = await axios.get(
@@ -16,6 +16,7 @@ function AdminOrders() {
       );
 
       setOrders(res.data);
+
     } catch (error) {
       console.log(error);
     }
@@ -24,33 +25,31 @@ function AdminOrders() {
   // Update Order Status
   const updateStatus = async (id, status) => {
     try {
+
       await axios.put(
         `http://localhost:5000/api/orders/${id}`,
         { status }
       );
 
-      setOrders(
-        orders.map((order) =>
-          order._id === id
-            ? { ...order, status }
-            : order
-        )
-      );
+      fetchOrders();
 
     } catch (error) {
+
       console.log(error);
       alert("Failed to update status");
+
     }
   };
 
   // Delete Order
   const deleteOrder = async (id) => {
 
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this order?"
-    );
-
-    if (!confirmDelete) return;
+    if (
+      !window.confirm(
+        "Delete this order from Admin Panel?"
+      )
+    )
+      return;
 
     try {
 
@@ -58,25 +57,54 @@ function AdminOrders() {
         `http://localhost:5000/api/orders/admin-delete/${id}`
       );
 
-      alert("Order deleted successfully");
+      fetchOrders();
+
+    } catch (error) {
+
+      console.log(error);
+
+    }
+  };
+
+  // Approve Payment
+  const approvePayment = async (id) => {
+
+    try {
+
+      await axios.put(
+        `http://localhost:5000/api/orders/${id}/approve-payment`
+      );
+
+      alert("Payment Approved");
 
       fetchOrders();
 
     } catch (error) {
 
       console.log(error);
-      alert("Failed to delete order");
 
     }
   };
 
-  // Filter invalid orders
-  const validOrders = orders.filter(
-    (order) =>
-      order.customerName &&
-      order.phone &&
-      order.address
-  );
+  // Reject Payment
+  const rejectPayment = async (id) => {
+
+    try {
+
+      await axios.put(
+        `http://localhost:5000/api/orders/${id}/reject-payment`
+      );
+
+      alert("Payment Rejected");
+
+      fetchOrders();
+
+    } catch (error) {
+
+      console.log(error);
+
+    }
+  };
 
   return (
     <div className="admin-orders-container">
@@ -86,23 +114,36 @@ function AdminOrders() {
       <table className="orders-table">
 
         <thead>
+
           <tr>
+
             <th>Customer</th>
+
             <th>Phone</th>
-            <th>Address</th>
+
             <th>Items</th>
-            <th>Payment</th>
+
             <th>Total</th>
+
+            <th>Payment</th>
+
+            <th>Receipt</th>
+
+            <th>Payment Status</th>
+
             <th>Status</th>
+
             <th>Actions</th>
+
           </tr>
+
         </thead>
 
         <tbody>
 
-          {validOrders.length > 0 ? (
+          {orders.length > 0 ? (
 
-            validOrders.map((order) => (
+            orders.map((order) => (
 
               <tr key={order._id}>
 
@@ -110,34 +151,119 @@ function AdminOrders() {
 
                 <td>{order.phone}</td>
 
-                <td>{order.address}</td>
-
                 <td>
-                  {order.items &&
-                  order.items.length > 0 ? (
-                    order.items.map((item) => (
-                      <div
-                        key={item._id || item.id}
-                      >
-                        {item.name} x {item.quantity}
-                      </div>
-                    ))
-                  ) : (
-                    "No Items"
-                  )}
-                </td>
 
-                <td>{order.paymentMethod}</td>
+                  {order.items?.length > 0 ? (
+
+                    order.items.map((item, index) => (
+
+                      <div key={index}>
+
+                        {item.name} × {item.quantity}
+
+                      </div>
+
+                    ))
+
+                  ) : (
+
+                    "No Items"
+
+                  )}
+
+                </td>
 
                 <td>
                   Rs. {order.totalAmount}
                 </td>
 
                 <td>
+
+                  <strong>
+                    {order.paymentMethod}
+                  </strong>
+
+                  {order.paymentReference && (
+                    <p
+                      style={{
+                        fontSize: "12px",
+                        marginTop: "5px",
+                      }}
+                    >
+                      Ref:
+                      <br />
+                      {order.paymentReference}
+                    </p>
+                  )}
+
+                </td>
+
+                <td>
+
+                  {order.receipt ? (
+
+                    <a
+                      href={`http://localhost:5000${order.receipt}`}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      View Receipt
+                    </a>
+
+                  ) : (
+
+                    "-"
+
+                  )}
+
+                </td>
+
+                <td>
+
+                  <b>{order.paymentStatus}</b>
+
+                  <br />
+
+                  {order.paymentMethod ===
+                    "Bank Transfer" &&
+                    order.paymentStatus ===
+                      "Pending" && (
+
+                      <>
+
+                        <button
+                          onClick={() =>
+                            approvePayment(
+                              order._id
+                            )
+                          }
+                        >
+                          Approve
+                        </button>
+
+                        <button
+                          style={{
+                            marginTop: "5px",
+                          }}
+                          onClick={() =>
+                            rejectPayment(
+                              order._id
+                            )
+                          }
+                        >
+                          Reject
+                        </button>
+
+                      </>
+
+                    )}
+
+                </td>
+
+                <td>
+
                   <select
-                    value={
-                      order.status || "Pending"
-                    }
+                    value={order.status}
                     onChange={(e) =>
                       updateStatus(
                         order._id,
@@ -145,6 +271,7 @@ function AdminOrders() {
                       )
                     }
                   >
+
                     <option value="Pending">
                       Pending
                     </option>
@@ -160,11 +287,13 @@ function AdminOrders() {
                     <option value="Delivered">
                       Delivered
                     </option>
+
                   </select>
+
                 </td>
 
-                {/* Delete Button */}
                 <td>
+
                   <button
                     className="delete-order-btn"
                     onClick={() =>
@@ -173,6 +302,7 @@ function AdminOrders() {
                   >
                     Delete
                   </button>
+
                 </td>
 
               </tr>
@@ -182,9 +312,11 @@ function AdminOrders() {
           ) : (
 
             <tr>
-              <td colSpan="8">
+
+              <td colSpan="9">
                 No Orders Found
               </td>
+
             </tr>
 
           )}
