@@ -53,7 +53,10 @@ const orderSchema = new mongoose.Schema(
       enum: [
         "Pending",
         "Preparing",
+        "Ready",
+        "Picked Up",
         "Out for Delivery",
+        "Completed",
         "Delivered",
       ],
       default: "Pending",

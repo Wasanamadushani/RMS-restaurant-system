@@ -124,7 +124,10 @@ const updateOrderStatus = async (req, res) => {
       {
         status: req.body.status,
       },
-      { new: true }
+      {
+        new: true,
+        runValidators: true,
+      }
     );
 
     res.status(200).json(order);
@@ -217,7 +220,10 @@ const getMyOrders = async (req, res) => {
         $in: [
           "Pending",
           "Preparing",
+          "Ready",
+          "Picked Up",
           "Out for Delivery",
+          "Completed",
         ],
       },
     }).sort({ createdAt: -1 });

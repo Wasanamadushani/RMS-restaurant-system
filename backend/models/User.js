@@ -27,7 +27,7 @@ const userSchema = new mongoose.Schema(
     // User Role
     role: {
       type: String,
-      enum: ["customer", "admin"],
+      enum: ["customer", "admin", "kitchen", "delivery", "cashier"],
       default: "customer",
     },
 
@@ -35,6 +35,13 @@ const userSchema = new mongoose.Schema(
     isBlocked: {
       type: Boolean,
       default: false,
+    },
+
+    // Availability
+    availability: {
+      type: String,
+      enum: ["available", "busy", "offline"],
+      default: "available",
     },
 
     // Phone Number

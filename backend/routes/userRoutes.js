@@ -5,7 +5,11 @@ const {
   registerUser,
   loginUser,
   getAllUsers,
+  getStaffUsers,
   getUserStats,
+  createStaff,
+  updateStaff,
+  resetStaffPassword,
   blockUser,
   unblockUser,
   deleteUser,
@@ -24,8 +28,20 @@ router.post("/login", loginUser);
 // Get All Users
 router.get("/", getAllUsers);
 
+// Get Staff Users
+router.get("/staff", getStaffUsers);
+
 // User Statistics
 router.get("/stats", getUserStats);
+
+// Create Staff
+router.post("/staff", createStaff);
+
+// Update Staff
+router.put("/staff/:id", updateStaff);
+
+// Reset Staff Password
+router.put("/staff/:id/reset-password", resetStaffPassword);
 
 // Block User
 router.put("/block/:id", blockUser);

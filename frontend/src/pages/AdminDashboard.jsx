@@ -8,6 +8,10 @@ import {
   FaUtensils,
 } from "react-icons/fa";
 
+import DashboardHeader from "../components/DashboardHeader";
+import DashboardStats from "../components/DashboardStats";
+import DashboardTable from "../components/DashboardTable";
+
 function AdminDashboard() {
   const [stats, setStats] = useState({
     totalOrders: 0,
@@ -15,11 +19,21 @@ function AdminDashboard() {
     totalRevenue: 0,
   });
 
+  const [userStats, setUserStats] = useState({
+    totalKitchenStaff: 0,
+    totalDeliveryStaff: 0,
+    totalCashiers: 0,
+    availableStaff: 0,
+    busyStaff: 0,
+    blockedStaff: 0,
+  });
+
   const [recentOrders, setRecentOrders] = useState([]);
 
   useEffect(() => {
     fetchStats();
     fetchRecentOrders();
+    fetchUserStats();
   }, []);
 
   // Fetch Dashboard Statistics
@@ -48,74 +62,95 @@ function AdminDashboard() {
     }
   };
 
+  const fetchUserStats = async () => {
+    try {
+      const res = await axios.get("http://localhost:5000/api/users/stats");
+
+      setUserStats(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="dashboard-content">
-      <h1>Admin Dashboard</h1>
+      <DashboardHeader title="Admin Dashboard" />
 
-      {/* Dashboard Cards */}
-      <div className="dashboard-cards">
+      <DashboardStats
+        items={[
+          {
+            title: "Total Orders",
+            value: stats.totalOrders,
+            icon: <FaShoppingCart className="card-icon" />,
+          },
+          {
+            title: "Total Revenue",
+            value: `Rs. ${stats.totalRevenue}`,
+            icon: <FaMoneyBillWave className="card-icon" />,
+          },
+          {
+            title: "Pending Orders",
+            value: stats.pendingOrders,
+            icon: <FaClock className="card-icon" />,
+          },
+          {
+            title: "Total Foods",
+            value: 12,
+            icon: <FaUtensils className="card-icon" />,
+          },
+        ]}
+      />
 
-        <div className="dashboard-card">
-          <FaShoppingCart className="card-icon" />
-          <h3>Total Orders</h3>
-          <p>{stats.totalOrders}</p>
-        </div>
+      <DashboardHeader title="Staff Summary" subtitle="Live staff availability across all operational roles." />
 
-        <div className="dashboard-card">
-          <FaMoneyBillWave className="card-icon" />
-          <h3>Total Revenue</h3>
-          <p>Rs. {stats.totalRevenue}</p>
-        </div>
+      <DashboardStats
+        items={[
+          {
+            title: "Kitchen Staff",
+            value: userStats.totalKitchenStaff,
+            icon: <FaUtensils className="card-icon" />,
+          },
+          {
+            title: "Delivery Staff",
+            value: userStats.totalDeliveryStaff,
+            icon: <FaShoppingCart className="card-icon" />,
+          },
+          {
+            title: "Cashiers",
+            value: userStats.totalCashiers,
+            icon: <FaMoneyBillWave className="card-icon" />,
+          },
+          {
+            title: "Available Staff",
+            value: userStats.availableStaff,
+            icon: <FaClock className="card-icon" />,
+          },
+          {
+            title: "Busy Staff",
+            value: userStats.busyStaff,
+            icon: <FaClock className="card-icon" />,
+          },
+          {
+            title: "Blocked Staff",
+            value: userStats.blockedStaff,
+            icon: <FaClock className="card-icon" />,
+          },
+        ]}
+      />
 
-        <div className="dashboard-card">
-          <FaClock className="card-icon" />
-          <h3>Pending Orders</h3>
-          <p>{stats.pendingOrders}</p>
-        </div>
-
-        <div className="dashboard-card">
-          <FaUtensils className="card-icon" />
-          <h3>Total Foods</h3>
-          <p>12</p>
-        </div>
-
-      </div>
-
-      {/* Recent Orders */}
-      <div className="recent-orders-section">
-
-        <h2>Recent Orders</h2>
-
-        <table className="recent-orders">
-          <thead>
-            <tr>
-              <th>Customer</th>
-              <th>Total</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {recentOrders.length > 0 ? (
-              recentOrders.map((order) => (
-                <tr key={order._id}>
-                  <td>{order.customerName}</td>
-                  <td>Rs. {order.totalAmount}</td>
-                  <td>{order.status}</td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="3">
-                  No recent orders found
-                </td>
-              </tr>
-            )}
-          </tbody>
-
-        </table>
-
-      </div>
+      <DashboardTable
+        title="Recent Orders"
+        columns={["Customer", "Total", "Status"]}
+        rows={recentOrders}
+        emptyMessage="No recent orders found"
+        renderRow={(order) => (
+          <tr key={order._id}>
+            <td>{order.customerName}</td>
+            <td>Rs. {order.totalAmount}</td>
+            <td>{order.status}</td>
+          </tr>
+        )}
+      />
     </div>
   );
 }
