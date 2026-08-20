@@ -7,10 +7,12 @@ import {
   FaClock,
   FaUtensils,
 } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 import DashboardHeader from "../components/DashboardHeader";
 import DashboardStats from "../components/DashboardStats";
 import DashboardTable from "../components/DashboardTable";
+import OrderDetailsModal from "../components/OrderDetailsModal";
 
 function AdminDashboard() {
   const [stats, setStats] = useState({
@@ -29,6 +31,9 @@ function AdminDashboard() {
   });
 
   const [recentOrders, setRecentOrders] = useState([]);
+  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [updatingId, setUpdatingId] = useState(null);
+  const [showConfirm, setShowConfirm] = useState(null);
 
   useEffect(() => {
     fetchStats();
@@ -69,6 +74,54 @@ function AdminDashboard() {
       setUserStats(res.data);
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  // Send order to cashier
+  const handleSendToCashier = async (orderId) => {
+    try {
+      setUpdatingId(orderId);
+      const token = localStorage.getItem("token");
+      
+      await axios.put(
+        `http://localhost:5000/api/orders/${orderId}/send-to-cashier`,
+        {},
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      
+      toast.success("Order sent to cashier for payment verification");
+      setShowConfirm(null);
+      await fetchRecentOrders();
+      await fetchStats();
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Failed to send order to cashier");
+      console.error(error);
+    } finally {
+      setUpdatingId(null);
+    }
+  };
+
+  // Send order to delivery
+  const handleSendToDelivery = async (orderId) => {
+    try {
+      setUpdatingId(orderId);
+      const token = localStorage.getItem("token");
+      
+      await axios.put(
+        `http://localhost:5000/api/orders/${orderId}/send-to-delivery`,
+        {},
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      
+      toast.success("Order sent to delivery staff");
+      setShowConfirm(null);
+      await fetchRecentOrders();
+      await fetchStats();
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Failed to send order to delivery");
+      console.error(error);
+    } finally {
+      setUpdatingId(null);
     }
   };
 
@@ -138,18 +191,108 @@ function AdminDashboard() {
         ]}
       />
 
+      {/* Workflow Confirmation Dialog */}
+      {showConfirm && (
+        <div className="modal-overlay">
+          <div className="order-modal" style={{ maxWidth: "400px" }}>
+            <div className="modal-header">
+              <div>
+                <h2>Confirm Action</h2>
+              </div>
+              <button
+                className="close-btn"
+                onClick={() => setShowConfirm(null)}
+              >
+                ✕
+              </button>
+            </div>
+            <div className="modal-section">
+              <p style={{ marginBottom: "20px", fontSize: "16px" }}>
+                {showConfirm.action === "send-cashier"
+                  ? "Send this order to Cashier for payment verification?"
+                  : "Send this order to Delivery staff?"}
+              </p>
+              <div style={{ display: "flex", gap: "10px", justifyContent: "flex-end" }}>
+                <button
+                  className="dashboard-action-btn"
+                  onClick={() => setShowConfirm(null)}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="dashboard-action-btn"
+                  onClick={() => {
+                    if (showConfirm.action === "send-cashier") {
+                      handleSendToCashier(showConfirm.orderId);
+                    } else {
+                      handleSendToDelivery(showConfirm.orderId);
+                    }
+                  }}
+                  disabled={updatingId === showConfirm.orderId}
+                >
+                  {updatingId === showConfirm.orderId ? "Processing..." : "Confirm"}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       <DashboardTable
         title="Recent Orders"
-        columns={["Customer", "Total", "Status"]}
+        columns={["Order ID", "Customer", "Total", "Status", "Workflow", "Actions"]}
         rows={recentOrders}
         emptyMessage="No recent orders found"
         renderRow={(order) => (
           <tr key={order._id}>
+            <td><strong>{order._id.slice(-6).toUpperCase()}</strong></td>
             <td>{order.customerName}</td>
             <td>Rs. {order.totalAmount}</td>
-            <td>{order.status}</td>
+            <td>
+              <span className={`dashboard-pill status-${order.status?.toLowerCase().replace(/\s+/g, "-")}`}>
+                {order.status}
+              </span>
+            </td>
+            <td>
+              <small style={{ color: "#666" }}>{order.workflowStage}</small>
+            </td>
+            <td>
+              <div className="dashboard-action-group">
+                <button
+                  className="dashboard-action-btn"
+                  onClick={() => setSelectedOrder(order)}
+                >
+                  View
+                </button>
+
+                {order.workflowStage === "ADMIN_PENDING" && (
+                  <button
+                    className="dashboard-action-btn"
+                    disabled={updatingId === order._id}
+                    onClick={() => setShowConfirm({ action: "send-cashier", orderId: order._id })}
+                  >
+                    {updatingId === order._id ? "..." : "→ Cashier"}
+                  </button>
+                )}
+
+                {order.workflowStage === "READY_FOR_DELIVERY" && (
+                  <button
+                    className="dashboard-action-btn"
+                    disabled={updatingId === order._id}
+                    onClick={() => setShowConfirm({ action: "send-delivery", orderId: order._id })}
+                  >
+                    {updatingId === order._id ? "..." : "→ Delivery"}
+                  </button>
+                )}
+              </div>
+            </td>
           </tr>
         )}
+      />
+
+      <OrderDetailsModal
+        order={selectedOrder}
+        onClose={() => setSelectedOrder(null)}
       />
     </div>
   );

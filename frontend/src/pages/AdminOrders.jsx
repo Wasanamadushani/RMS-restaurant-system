@@ -54,7 +54,7 @@ function AdminOrders() {
     try {
 
       await axios.put(
-        `http://localhost:5000/api/orders/admin-delete/${id}`
+        `http://localhost:5000/api/orders/${id}/admin-delete`
       );
 
       fetchOrders();
@@ -153,7 +153,7 @@ function AdminOrders() {
 
                 <td>
 
-                  {order.items?.length > 0 ? (
+                  {Array.isArray(order.items) && order.items.length > 0 ? (
 
                     order.items.map((item, index) => (
 

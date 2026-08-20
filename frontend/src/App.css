@@ -895,6 +895,194 @@ body {
   flex: 1;
 }
 
+/* ===========================
+   ABOUT AND CONTACT PAGES
+=========================== */
+
+.about-page,
+.contact-page {
+  background: #fffaf7;
+  color: #27201d;
+}
+
+.page-hero {
+  background: #211b19;
+  color: white;
+  padding: 72px 24px 76px;
+  text-align: center;
+}
+
+.about-hero {
+  background: linear-gradient(120deg, rgba(32, 25, 22, .98), rgba(77, 34, 21, .92)), url("../public/images/hero-food.jpg") center / cover;
+}
+
+.contact-hero {
+  background: linear-gradient(120deg, rgba(32, 25, 22, .98), rgba(77, 34, 21, .92));
+}
+
+.eyebrow {
+  color: #ff7043;
+  display: block;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  margin-bottom: 14px;
+}
+
+.page-hero h1 {
+  font-size: clamp(38px, 6vw, 64px);
+  margin-bottom: 18px;
+}
+
+.hero-subtitle {
+  font-size: 21px;
+  line-height: 1.5;
+  margin: 0 auto 14px;
+  max-width: 700px;
+}
+
+.hero-intro {
+  color: #eadcd6;
+  line-height: 1.7;
+  margin: 0 auto;
+  max-width: 670px;
+}
+
+.content-section {
+  margin: 0 auto;
+  max-width: 1160px;
+  padding: 82px 24px;
+}
+
+.section-heading h2 {
+  color: #28201d;
+  font-size: 36px;
+  margin-bottom: 18px;
+}
+
+.section-heading p,
+.story-copy p,
+.purpose-panel p,
+.benefit-card p,
+.step-item p,
+.contact-detail-card p,
+.contact-form .section-heading p {
+  color: #6e625d;
+  line-height: 1.7;
+}
+
+.about-story {
+  display: grid;
+  gap: 70px;
+  grid-template-columns: minmax(220px, .8fr) 1.2fr;
+}
+
+.story-copy { padding-top: 4px; }
+.story-copy p + p { margin-top: 20px; }
+
+.about-purpose {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: repeat(2, 1fr);
+  padding-top: 0;
+}
+
+.purpose-panel {
+  background: #fff;
+  border-left: 5px solid #ff5722;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(45, 25, 15, .08);
+  padding: 34px;
+}
+
+.purpose-panel-dark { background: #29211e; border-left-color: #ff7043; }
+.purpose-panel-dark h2 { color: white; }
+.purpose-number { color: #ff5722; display: block; font-size: 13px; font-weight: bold; margin-bottom: 22px; }
+
+.centered-heading { text-align: center; }
+.benefits-section { max-width: 1240px; }
+.benefit-grid { display: grid; gap: 22px; grid-template-columns: repeat(4, 1fr); margin-top: 38px; }
+.benefit-card { background: #fff; border-radius: 10px; box-shadow: 0 8px 24px rgba(45, 25, 15, .08); padding: 28px 24px; }
+.benefit-icon,
+.step-icon,
+.contact-detail-icon { color: #ff5722; font-size: 25px; margin-bottom: 20px; }
+.benefit-card h3, .step-item h3, .contact-detail-card h3 { margin-bottom: 10px; }
+
+.steps-section { border-top: 1px solid #eaded8; }
+.steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 38px; }
+.step-item { border-left: 1px solid #e5d6cf; padding: 0 26px; }
+.step-item:first-child { border-left: 0; padding-left: 0; }
+.step-topline { align-items: center; display: flex; justify-content: space-between; margin-bottom: 14px; }
+.step-topline > span { color: #cbb5ab; font-size: 14px; font-weight: bold; }
+.step-icon { margin: 0; }
+
+.page-cta { align-items: center; background: #ff5722; color: white; display: flex; gap: 30px; justify-content: space-between; margin: 0 auto 82px; max-width: 1112px; padding: 42px 48px; }
+.page-cta .eyebrow { color: #2b1710; }
+.page-cta h2 { font-size: 30px; margin-bottom: 8px; }
+.page-cta p { color: #fff1eb; }
+.primary-action { background: #251c19; border: 0; border-radius: 6px; color: white; display: inline-block; font-weight: bold; padding: 14px 24px; text-decoration: none; white-space: nowrap; }
+.primary-action:hover { background: #000; color: white; }
+
+.contact-layout { align-items: start; display: grid; gap: 60px; grid-template-columns: .9fr 1.1fr; }
+.contact-details-grid { display: grid; gap: 14px; margin-top: 30px; }
+.contact-detail-card { align-items: flex-start; background: white; border-radius: 8px; box-shadow: 0 6px 20px rgba(45, 25, 15, .07); display: flex; gap: 18px; padding: 22px; }
+.contact-detail-icon { align-items: center; background: #fff0ea; border-radius: 50%; display: flex; flex: 0 0 42px; height: 42px; justify-content: center; margin: 0; width: 42px; }
+.contact-detail-card h3 { font-size: 16px; }
+.contact-detail-card p { font-size: 14px; margin: 0; }
+.contact-detail-card a { color: #db481c; text-decoration: none; }
+
+.contact-form { background: white; border-radius: 10px; box-shadow: 0 10px 30px rgba(45, 25, 15, .1); padding: 34px; }
+.contact-form .section-heading { margin-bottom: 24px; }
+.form-row { display: grid; gap: 18px; grid-template-columns: repeat(2, 1fr); }
+.form-field { display: flex; flex-direction: column; margin-bottom: 18px; }
+.form-field label { color: #372b26; font-size: 14px; font-weight: bold; margin-bottom: 8px; }
+.form-field label span { color: #8c7b72; font-weight: normal; }
+.form-field input, .form-field textarea { border: 1px solid #dfd2cc; border-radius: 6px; font: inherit; padding: 13px 14px; width: 100%; }
+.form-field textarea { min-height: 145px; resize: vertical; }
+.form-field input:focus, .form-field textarea:focus { border-color: #ff5722; outline: 2px solid rgba(255, 87, 34, .15); }
+.form-field [aria-invalid="true"] { border-color: #c62828; }
+.field-error { color: #b3261e; font-size: 12px; margin-top: 6px; }
+.form-submit { cursor: pointer; font-size: 15px; }
+
+.site-footer { background: #211b19; color: white; margin-top: 0; }
+.footer-main { display: flex; gap: 80px; justify-content: space-between; margin: 0 auto; max-width: 1160px; padding: 54px 24px 42px; }
+.footer-brand h2 { color: #ff7043; font-size: 28px; margin-bottom: 12px; }
+.footer-brand p { color: #d9c8c1; }
+.footer-links { display: flex; gap: 80px; }
+.footer-links div { display: flex; flex-direction: column; gap: 9px; min-width: 140px; }
+.footer-links h3 { font-size: 15px; margin-bottom: 7px; }
+.footer-links a { color: #d9c8c1; font-size: 14px; text-decoration: none; }
+.footer-links a:hover { color: #ff7043; }
+.footer-bottom { border-top: 1px solid #493a34; color: #bba8a0; font-size: 13px; padding: 18px 24px; text-align: center; }
+
+@media (max-width: 768px) {
+  .navbar { padding: 16px 20px; }
+  .logo { font-size: 26px; }
+  .nav-links { align-items: center; display: flex; flex-wrap: wrap; gap: 12px; justify-content: flex-end; }
+  .nav-links a { font-size: 14px; margin-left: 8px; }
+  .page-hero { padding: 55px 20px 58px; }
+  .hero-subtitle { font-size: 18px; }
+  .content-section { padding: 58px 20px; }
+  .about-story, .contact-layout { gap: 35px; grid-template-columns: 1fr; }
+  .about-purpose, .benefit-grid, .steps-grid { grid-template-columns: repeat(2, 1fr); }
+  .step-item, .step-item:first-child { border-left: 0; padding: 0; }
+  .steps-grid { gap: 30px 20px; }
+  .page-cta { align-items: flex-start; flex-direction: column; margin-bottom: 58px; padding: 34px 24px; }
+  .footer-main { flex-direction: column; gap: 35px; padding: 42px 20px 34px; }
+  .footer-links { gap: 35px; }
+}
+
+@media (max-width: 480px) {
+  .navbar { align-items: flex-start; gap: 12px; }
+  .nav-links { gap: 5px; }
+  .nav-links a { font-size: 13px; margin-left: 4px; }
+  .signup-btn-nav { padding: 8px 10px; }
+  .about-purpose, .benefit-grid, .steps-grid, .form-row { grid-template-columns: 1fr; }
+  .section-heading h2 { font-size: 30px; }
+  .purpose-panel, .contact-form { padding: 25px 20px; }
+  .footer-links { gap: 24px; }
+}
+
 
 .cart-container {
   max-width: 1100px;
@@ -2177,4 +2365,97 @@ font-size:16px;
   .dashboard-modal-grid {
     grid-template-columns: 1fr;
   }
+}
+
+
+/*Order Modal Styles*/
+.modal-overlay{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.55);
+display:flex;
+align-items:center;
+justify-content:center;
+z-index:9999;
+}
+
+.order-modal{
+
+width:800px;
+max-height:90vh;
+overflow:auto;
+background:#fff;
+border-radius:14px;
+padding:25px;
+box-shadow:0 15px 40px rgba(0,0,0,.25);
+
+}
+
+.modal-header{
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
+
+}
+
+.modal-section{
+
+margin-top:20px;
+
+}
+
+.modal-table{
+
+width:100%;
+border-collapse:collapse;
+
+}
+
+.modal-table th{
+
+background:#ff5a36;
+color:white;
+padding:10px;
+
+}
+
+.modal-table td{
+
+padding:10px;
+border-bottom:1px solid #eee;
+
+}
+
+.modal-footer{
+
+margin-top:25px;
+display:flex;
+justify-content:flex-end;
+
+}
+
+.close-btn{
+
+border:none;
+background:#ff5a36;
+color:white;
+padding:10px 15px;
+border-radius:8px;
+cursor:pointer;
+
+}
+
+.modal-section textarea{
+
+width:100%;
+padding:12px;
+border-radius:8px;
+border:1px solid #ddd;
+resize:none;
+
 }

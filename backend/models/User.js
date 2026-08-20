@@ -27,8 +27,15 @@ const userSchema = new mongoose.Schema(
     // User Role
     role: {
       type: String,
-      enum: ["customer", "admin", "kitchen", "delivery", "cashier"],
+      enum: ["customer", "admin", "staff"],
       default: "customer",
+    },
+
+    // Staff Sub-Role (for staff role only)
+    staffRole: {
+      type: String,
+      enum: ["kitchen", "delivery", "cashier"],
+      default: null,
     },
 
     // Block / Unblock

@@ -19,6 +19,8 @@ import AdminLayout from "./components/AdminLayout";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 import Home from "./pages/Home";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Menu from "./pages/Menu";
@@ -34,8 +36,15 @@ import AdminReviews from "./pages/AdminReviews";
 import AdminUsers from "./pages/AdminUsers";
 
 import KitchenDashboard from "./pages/KitchenDashboard";
+import KitchenAssignedOrders from "./pages/KitchenAssignedOrders";
+import KitchenPreparing from "./pages/KitchenPreparing";
+import KitchenCompleted from "./pages/KitchenCompleted";
 import DeliveryDashboard from "./pages/DeliveryDashboard";
+import DeliveryAssigned from "./pages/DeliveryAssigned";
+import DeliveryHistory from "./pages/DeliveryHistory";
 import CashierDashboard from "./pages/CashierDashboard";
+import CashierPayments from "./pages/CashierPayments";
+import CashierHistory from "./pages/CashierHistory";
 
 import {
   FaTachometerAlt,
@@ -83,17 +92,17 @@ const kitchenMenuItems = [
     icon: <FaTachometerAlt />,
   },
   {
-    to: "/kitchen/dashboard#assigned-orders",
+    to: "/kitchen/assigned",
     label: "Assigned Orders",
     icon: <FaShoppingCart />,
   },
   {
-    to: "/kitchen/dashboard#preparing",
+    to: "/kitchen/preparing",
     label: "Preparing",
     icon: <FaUtensils />,
   },
   {
-    to: "/kitchen/dashboard#completed",
+    to: "/kitchen/completed",
     label: "Completed",
     icon: <FaClipboardList />,
   },
@@ -106,12 +115,12 @@ const deliveryMenuItems = [
     icon: <FaTachometerAlt />,
   },
   {
-    to: "/delivery/dashboard#assigned-deliveries",
+    to: "/delivery/assigned",
     label: "Assigned Deliveries",
     icon: <FaTruck />,
   },
   {
-    to: "/delivery/dashboard#history",
+    to: "/delivery/history",
     label: "History",
     icon: <FaClipboardList />,
   },
@@ -124,12 +133,12 @@ const cashierMenuItems = [
     icon: <FaTachometerAlt />,
   },
   {
-    to: "/cashier/dashboard#pending-payments",
+    to: "/cashier/payments",
     label: "Pending Payments",
     icon: <FaMoneyBillWave />,
   },
   {
-    to: "/cashier/dashboard#payment-history",
+    to: "/cashier/history",
     label: "Payment History",
     icon: <FaReceipt />,
   },
@@ -167,6 +176,10 @@ function AppContent() {
           {/* ================= USER ROUTES ================= */}
 
           <Route path="/" element={<Home />} />
+
+          <Route path="/about" element={<About />} />
+
+          <Route path="/contact" element={<Contact />} />
 
           <Route path="/menu" element={<Menu />} />
 
@@ -294,6 +307,48 @@ function AppContent() {
           />
 
           <Route
+            path="/kitchen/assigned"
+            element={
+              <ProtectedRoute allowedRoles={["kitchen"]}>
+                <AdminLayout
+                  brand="FoodieHub Kitchen"
+                  menuItems={kitchenMenuItems}
+                >
+                  <KitchenAssignedOrders />
+                </AdminLayout>
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/kitchen/preparing"
+            element={
+              <ProtectedRoute allowedRoles={["kitchen"]}>
+                <AdminLayout
+                  brand="FoodieHub Kitchen"
+                  menuItems={kitchenMenuItems}
+                >
+                  <KitchenPreparing />
+                </AdminLayout>
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/kitchen/completed"
+            element={
+              <ProtectedRoute allowedRoles={["kitchen"]}>
+                <AdminLayout
+                  brand="FoodieHub Kitchen"
+                  menuItems={kitchenMenuItems}
+                >
+                  <KitchenCompleted />
+                </AdminLayout>
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
             path="/delivery/dashboard"
             element={
               <ProtectedRoute allowedRoles={["delivery"]}>
@@ -308,6 +363,34 @@ function AppContent() {
           />
 
           <Route
+            path="/delivery/assigned"
+            element={
+              <ProtectedRoute allowedRoles={["delivery"]}>
+                <AdminLayout
+                  brand="FoodieHub Delivery"
+                  menuItems={deliveryMenuItems}
+                >
+                  <DeliveryAssigned />
+                </AdminLayout>
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/delivery/history"
+            element={
+              <ProtectedRoute allowedRoles={["delivery"]}>
+                <AdminLayout
+                  brand="FoodieHub Delivery"
+                  menuItems={deliveryMenuItems}
+                >
+                  <DeliveryHistory />
+                </AdminLayout>
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
             path="/cashier/dashboard"
             element={
               <ProtectedRoute allowedRoles={["cashier"]}>
@@ -316,6 +399,34 @@ function AppContent() {
                   menuItems={cashierMenuItems}
                 >
                   <CashierDashboard />
+                </AdminLayout>
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/cashier/payments"
+            element={
+              <ProtectedRoute allowedRoles={["cashier"]}>
+                <AdminLayout
+                  brand="FoodieHub Cashier"
+                  menuItems={cashierMenuItems}
+                >
+                  <CashierPayments />
+                </AdminLayout>
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/cashier/history"
+            element={
+              <ProtectedRoute allowedRoles={["cashier"]}>
+                <AdminLayout
+                  brand="FoodieHub Cashier"
+                  menuItems={cashierMenuItems}
+                >
+                  <CashierHistory />
                 </AdminLayout>
               </ProtectedRoute>
             }
