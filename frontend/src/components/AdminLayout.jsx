@@ -1,16 +1,17 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 
-import {
-  FaTachometerAlt,
-  FaUtensils,
-  FaShoppingCart,
-  FaUsers,
-  FaSignOutAlt,
-} from "react-icons/fa";
+import { FaSignOutAlt } from "react-icons/fa";
 
-function AdminLayout({ children }) {
+function AdminLayout({
+  children,
+  brand = "FoodieHub",
+  menuItems = [],
+  backLinkTo = "/",
+  backLinkLabel = "Back to Website",
+}) {
   const location = useLocation();
+  const currentPath = `${location.pathname}${location.hash}`;
 
   return (
     <div className="admin-layout">
@@ -19,67 +20,32 @@ function AdminLayout({ children }) {
       <div className="admin-sidebar">
 
         <h2 className="admin-logo">
-          FoodieHub
+          {brand}
         </h2>
 
         <ul>
 
-          <li
-            className={
-              location.pathname === "/admin/dashboard"
-                ? "active"
-                : ""
-            }
-          >
-            <Link to="/admin/dashboard">
-              <FaTachometerAlt />
-              Dashboard
-            </Link>
-          </li>
-
-          <li
-            className={
-              location.pathname === "/admin/foods"
-                ? "active"
-                : ""
-            }
-          >
-            <Link to="/admin/foods">
-              <FaUtensils />
-              Manage Foods
-            </Link>
-          </li>
-
-          <li
-            className={
-              location.pathname === "/admin/orders"
-                ? "active"
-                : ""
-            }
-          >
-            <Link to="/admin/orders">
-              <FaShoppingCart />
-              Orders
-            </Link>
-          </li>
-
-          <li
-            className={
-              location.pathname === "/admin/users"
-                ? "active"
-                : ""
-            }
-          >
-            <Link to="/admin/users">
-              <FaUsers />
-              Users
-            </Link>
-          </li>
+          {menuItems.map((item) => (
+            <li
+              key={item.to}
+              className={
+                currentPath === item.to ||
+                location.pathname === item.to
+                  ? "active"
+                  : ""
+              }
+            >
+              <Link to={item.to}>
+                {item.icon}
+                <span>{item.label}</span>
+              </Link>
+            </li>
+          ))}
 
           <li>
-            <Link to="/">
+            <Link to={backLinkTo}>
               <FaSignOutAlt />
-              Back to Website
+              <span>{backLinkLabel}</span>
             </Link>
           </li>
 

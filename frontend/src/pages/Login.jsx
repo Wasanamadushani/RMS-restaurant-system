@@ -33,13 +33,20 @@ function Login() {
         JSON.stringify(response.data.user)
       );
 
+      axios.defaults.headers.common.Authorization =
+        `Bearer ${response.data.token}`;
+
       alert("Login Successful");
 
-      if (response.data.user.role === "admin") {
-        navigate("/admin/dashboard");
-      } else {
-        navigate("/menu");
-      }
+      const roleRoutes = {
+        admin: "/admin/dashboard",
+        kitchen: "/kitchen/dashboard",
+        delivery: "/delivery/dashboard",
+        cashier: "/cashier/dashboard",
+        customer: "/",
+      };
+
+      navigate(roleRoutes[response.data.user.role] || "/");
     } catch (error) {
       console.log(error);
 
